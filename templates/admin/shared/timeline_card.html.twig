@@ -1,0 +1,12 @@
+{# Card shell of the order and customer timelines; content comes from the "tmonier_timeline" child hook. #}
+<div class="card mb-3" id="tmonier-timeline" {{ sylius_test_html_attribute('timeline-card') }}>
+    <div class="card-header">
+        <div class="card-title">
+            {{ ux_icon('tabler:history', {'class': 'icon'}) }}
+            {{ 'tmonier_timeline.ui.timeline'|trans }}
+        </div>
+    </div>
+    <div class="card-body">
+        {% hook 'tmonier_timeline' %}
+    </div>
+</div>

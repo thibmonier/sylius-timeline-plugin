@@ -1,0 +1,63 @@
+{#
+    Timeline entries, newest first.
+    Variables: entries (list of TimelineEntryInterface), show_order (bool, link each entry to its order)
+#}
+{% import '@SyliusAdmin/shared/helper/money.html.twig' as money %}
+
+{% if entries is empty %}
+    <p class="text-secondary mb-0" {{ sylius_test_html_attribute('timeline-empty') }}>{{ 'tmonier_timeline.ui.no_entries'|trans }}</p>
+{% else %}
+    <ul class="timeline timeline-simple mb-0" {{ sylius_test_html_attribute('timeline') }}>
+        {% for entry in entries %}
+            <li class="timeline-event" {{ sylius_test_html_attribute('timeline-entry', entry.type) }}>
+                <div class="timeline-event-icon bg-{{ tmonier_timeline_color(entry) }}-lt">
+                    {{ ux_icon(tmonier_timeline_icon(entry), {'class': 'icon'}) }}
+                </div>
+                <div class="card timeline-event-card{{ entry.note and entry.pinned ? ' border-warning' }}">
+                    <div class="card-body py-2">
+                        <div class="d-flex flex-wrap justify-content-between gap-2">
+                            <div>
+                                <strong {{ sylius_test_html_attribute('timeline-entry-label') }}>{{ tmonier_timeline_label(entry) }}</strong>
+                                {% if show_order|default(false) and entry.order is not null %}
+                                    <a href="{{ path('sylius_admin_order_show', {'id': entry.order.id}) }}" class="ms-1" {{ sylius_test_html_attribute('timeline-entry-order') }}>#{{ entry.order.number }}</a>
+                                {% endif %}
+                                {% if entry.note and entry.pinned %}
+                                    <span class="badge bg-yellow-lt ms-1">{{ ux_icon('tabler:star-filled', {'class': 'icon'}) }} {{ 'tmonier_timeline.ui.pinned'|trans }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="text-secondary small text-nowrap">
+                                <span {{ sylius_test_html_attribute('timeline-entry-author') }}>{{ tmonier_timeline_author(entry) }}</span>
+                                &middot;
+                                <time datetime="{{ entry.createdAt|date('c') }}">{{ entry.createdAt|format_datetime('medium', 'short') }}</time>
+                            </div>
+                        </div>
+
+                        {% if entry.type == 'order_placed' and entry.contextValue('total') is not null %}
+                            <div class="text-secondary">{{ money.format(entry.contextValue('total'), entry.contextValue('currency')) }}</div>
+                        {% elseif entry.type == 'payment' %}
+                            <div class="text-secondary">
+                                {{ entry.contextValue('method')|default('') }}
+                                {% if entry.contextValue('amount') is not null %}&middot; {{ money.format(entry.contextValue('amount'), entry.contextValue('currency')) }}{% endif %}
+                            </div>
+                        {% elseif entry.type == 'shipment' %}
+                            <div class="text-secondary">
+                                {{ entry.contextValue('method')|default('') }}
+                                {% if entry.contextValue('tracking') is not null %}&middot; {{ 'sylius.ui.tracking_code'|trans }}: {{ entry.contextValue('tracking') }}{% endif %}
+                            </div>
+                        {% elseif entry.type == 'email' and entry.contextValue('recipients') is not empty %}
+                            <div class="text-secondary">{{ 'tmonier_timeline.ui.sent_to'|trans }} {{ entry.contextValue('recipients')|join(', ') }}</div>
+                        {% endif %}
+
+                        {% if entry.content is not null %}
+                            <div class="mt-1 text-break" {{ sylius_test_html_attribute('timeline-entry-content') }}>{{ entry.content|nl2br }}</div>
+                        {% endif %}
+
+                        {% if entry.note %}
+                            {% include '@TmonierSyliusTimelinePlugin/admin/shared/note_actions.html.twig' with { note: entry } %}
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

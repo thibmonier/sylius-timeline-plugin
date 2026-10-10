@@ -1,0 +1,57 @@
+tmonier_timeline:
+    ui:
+        timeline: 'Verlauf'
+        notes: 'Notizen'
+        no_entries: 'Bisher wurde nichts aufgezeichnet.'
+        pinned: 'Angeheftet'
+        pinned_notes: 'Angeheftete Notizen'
+        pin: 'Anheften'
+        unpin: 'Lösen'
+        delete_confirmation: 'Diese Notiz löschen?'
+        add_internal_note: 'Interne Notiz'
+        note_placeholder: 'Notiz für das Team schreiben…'
+        staff_only: 'Nur für Mitarbeitende sichtbar, nie für den Kunden.'
+        add_note: 'Notiz hinzufügen'
+        show_full_timeline: 'Gesamten Verlauf anzeigen (%count% Einträge)'
+        internal_notes_count: 'Interne Notizen: %count%'
+        sent_to: 'Gesendet an'
+    author:
+        admin: 'Administrator'
+        customer: 'Kunde'
+        system: 'System'
+    event:
+        order_placed: 'Bestellung aufgegeben'
+        customer_note: 'Anmerkung des Kunden'
+        note: 'Interne Notiz'
+        email: 'E-Mail gesendet: %email%'
+        transition: '%workflow%: %transition%'
+        sylius_order:
+            cancel: 'Bestellung storniert'
+            fulfill: 'Bestellung abgeschlossen'
+        sylius_order_payment:
+            authorize: 'Zahlung der Bestellung autorisiert'
+            partially_authorize: 'Zahlung der Bestellung teilweise autorisiert'
+            pay: 'Bestellung bezahlt'
+            partially_pay: 'Bestellung teilweise bezahlt'
+            cancel: 'Zahlung der Bestellung storniert'
+            refund: 'Bestellung erstattet'
+            partially_refund: 'Bestellung teilweise erstattet'
+        sylius_order_shipping:
+            ship: 'Bestellung versandt'
+            partially_ship: 'Bestellung teilweise versandt'
+            cancel: 'Versand der Bestellung storniert'
+        sylius_payment:
+            authorize: 'Zahlung autorisiert'
+            complete: 'Zahlung abgeschlossen'
+            fail: 'Zahlung fehlgeschlagen'
+            cancel: 'Zahlung storniert'
+            refund: 'Zahlung erstattet'
+            void: 'Zahlung annulliert'
+        sylius_shipment:
+            ship: 'Sendung versandt'
+            cancel: 'Sendung storniert'
+    email:
+        order_confirmation: 'Bestellbestätigung'
+        order_confirmation_resent: 'Bestellbestätigung (erneut gesendet)'
+        shipment_confirmation: 'Versandbestätigung'
+        shipment_confirmation_resent: 'Versandbestätigung (erneut gesendet)'

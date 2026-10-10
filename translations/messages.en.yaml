@@ -1,0 +1,57 @@
+tmonier_timeline:
+    ui:
+        timeline: 'Timeline'
+        notes: 'Notes'
+        no_entries: 'Nothing has been recorded yet.'
+        pinned: 'Pinned'
+        pinned_notes: 'Pinned notes'
+        pin: 'Pin'
+        unpin: 'Unpin'
+        delete_confirmation: 'Delete this note?'
+        add_internal_note: 'Internal note'
+        note_placeholder: 'Write a note for the team…'
+        staff_only: 'Only visible to staff, never to the customer.'
+        add_note: 'Add note'
+        show_full_timeline: 'Show the full timeline (%count% entries)'
+        internal_notes_count: 'Internal notes: %count%'
+        sent_to: 'Sent to'
+    author:
+        admin: 'Administrator'
+        customer: 'Customer'
+        system: 'System'
+    event:
+        order_placed: 'Order placed'
+        customer_note: 'Customer note'
+        note: 'Internal note'
+        email: 'E-mail sent: %email%'
+        transition: '%workflow%: %transition%'
+        sylius_order:
+            cancel: 'Order cancelled'
+            fulfill: 'Order fulfilled'
+        sylius_order_payment:
+            authorize: 'Order payment authorized'
+            partially_authorize: 'Order payment partially authorized'
+            pay: 'Order paid'
+            partially_pay: 'Order partially paid'
+            cancel: 'Order payment cancelled'
+            refund: 'Order refunded'
+            partially_refund: 'Order partially refunded'
+        sylius_order_shipping:
+            ship: 'Order shipped'
+            partially_ship: 'Order partially shipped'
+            cancel: 'Order shipping cancelled'
+        sylius_payment:
+            authorize: 'Payment authorized'
+            complete: 'Payment completed'
+            fail: 'Payment failed'
+            cancel: 'Payment cancelled'
+            refund: 'Payment refunded'
+            void: 'Payment voided'
+        sylius_shipment:
+            ship: 'Shipment shipped'
+            cancel: 'Shipment cancelled'
+    email:
+        order_confirmation: 'order confirmation'
+        order_confirmation_resent: 'order confirmation (resent)'
+        shipment_confirmation: 'shipment confirmation'
+        shipment_confirmation_resent: 'shipment confirmation (resent)'

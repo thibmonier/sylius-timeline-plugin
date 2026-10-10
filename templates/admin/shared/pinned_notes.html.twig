@@ -1,0 +1,27 @@
+{# Variables: notes (pinned notes) #}
+{% if notes is not empty %}
+    <div class="card card-borderless mb-3 bg-yellow-lt" {{ sylius_test_html_attribute('pinned-notes') }}>
+        <div class="card-header">
+            <div class="card-title">
+                {{ ux_icon('tabler:star-filled', {'class': 'icon text-yellow'}) }}
+                {{ 'tmonier_timeline.ui.pinned_notes'|trans }}
+            </div>
+        </div>
+        <div class="list-group list-group-flush">
+            {% for note in notes %}
+                <div class="list-group-item bg-transparent" {{ sylius_test_html_attribute('pinned-note') }}>
+                    <div class="text-break">{{ note.content|nl2br }}</div>
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+                        <small class="text-secondary">
+                            {{ tmonier_timeline_author(note) }} &middot; {{ note.createdAt|format_datetime('medium', 'short') }}
+                        </small>
+                        <form action="{{ path('tmonier_timeline_admin_note_toggle_pin', {'id': note.id}) }}" method="POST">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token(tmonier_timeline_note_csrf_token_id(note)) }}" />
+                            <button type="submit" class="btn btn-sm btn-ghost-secondary">{{ 'tmonier_timeline.ui.unpin'|trans }}</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

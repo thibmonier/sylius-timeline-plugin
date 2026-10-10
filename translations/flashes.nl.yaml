@@ -1,0 +1,7 @@
+tmonier_timeline:
+    note_added: 'De notitie is toegevoegd.'
+    note_pinned: 'De notitie is vastgezet.'
+    note_unpinned: 'De notitie is losgemaakt.'
+    note_deleted: 'De notitie is verwijderd.'
+    note_empty: 'De notitie mag niet leeg zijn.'
+    note_too_long: 'De notitie mag niet langer zijn dan %limit% tekens.'

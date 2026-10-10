@@ -1,0 +1,7 @@
+tmonier_timeline:
+    note_added: 'Die Notiz wurde hinzugefügt.'
+    note_pinned: 'Die Notiz wurde angeheftet.'
+    note_unpinned: 'Die Notiz wurde gelöst.'
+    note_deleted: 'Die Notiz wurde gelöscht.'
+    note_empty: 'Die Notiz darf nicht leer sein.'
+    note_too_long: 'Die Notiz darf höchstens %limit% Zeichen lang sein.'

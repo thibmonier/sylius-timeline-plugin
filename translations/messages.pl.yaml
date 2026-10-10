@@ -1,0 +1,57 @@
+tmonier_timeline:
+    ui:
+        timeline: 'Oś czasu'
+        notes: 'Notatki'
+        no_entries: 'Nic jeszcze nie zostało zarejestrowane.'
+        pinned: 'Przypięta'
+        pinned_notes: 'Przypięte notatki'
+        pin: 'Przypnij'
+        unpin: 'Odepnij'
+        delete_confirmation: 'Usunąć tę notatkę?'
+        add_internal_note: 'Notatka wewnętrzna'
+        note_placeholder: 'Napisz notatkę dla zespołu…'
+        staff_only: 'Widoczna tylko dla personelu, nigdy dla klienta.'
+        add_note: 'Dodaj notatkę'
+        show_full_timeline: 'Pokaż całą oś czasu (wpisy: %count%)'
+        internal_notes_count: 'Notatki wewnętrzne: %count%'
+        sent_to: 'Wysłano do'
+    author:
+        admin: 'Administrator'
+        customer: 'Klient'
+        system: 'System'
+    event:
+        order_placed: 'Zamówienie złożone'
+        customer_note: 'Uwaga klienta'
+        note: 'Notatka wewnętrzna'
+        email: 'Wysłano e-mail: %email%'
+        transition: '%workflow%: %transition%'
+        sylius_order:
+            cancel: 'Zamówienie anulowane'
+            fulfill: 'Zamówienie zrealizowane'
+        sylius_order_payment:
+            authorize: 'Płatność za zamówienie autoryzowana'
+            partially_authorize: 'Płatność za zamówienie częściowo autoryzowana'
+            pay: 'Zamówienie opłacone'
+            partially_pay: 'Zamówienie częściowo opłacone'
+            cancel: 'Płatność za zamówienie anulowana'
+            refund: 'Zamówienie zwrócone'
+            partially_refund: 'Zamówienie częściowo zwrócone'
+        sylius_order_shipping:
+            ship: 'Zamówienie wysłane'
+            partially_ship: 'Zamówienie częściowo wysłane'
+            cancel: 'Wysyłka zamówienia anulowana'
+        sylius_payment:
+            authorize: 'Płatność autoryzowana'
+            complete: 'Płatność zrealizowana'
+            fail: 'Płatność nieudana'
+            cancel: 'Płatność anulowana'
+            refund: 'Płatność zwrócona'
+            void: 'Płatność unieważniona'
+        sylius_shipment:
+            ship: 'Przesyłka wysłana'
+            cancel: 'Przesyłka anulowana'
+    email:
+        order_confirmation: 'potwierdzenie zamówienia'
+        order_confirmation_resent: 'potwierdzenie zamówienia (ponownie wysłane)'
+        shipment_confirmation: 'potwierdzenie wysyłki'
+        shipment_confirmation_resent: 'potwierdzenie wysyłki (ponownie wysłane)'

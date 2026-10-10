@@ -1,0 +1,22 @@
+{# Variables: action (URL the note is posted to) #}
+<form action="{{ action }}" method="POST" class="mb-3" {{ sylius_test_html_attribute('note-form') }}>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token(tmonier_timeline_add_note_csrf_token_id()) }}" />
+    <label class="form-label" for="tmonier-timeline-note-content">{{ 'tmonier_timeline.ui.add_internal_note'|trans }}</label>
+    <textarea
+        id="tmonier-timeline-note-content"
+        name="content"
+        class="form-control"
+        rows="3"
+        maxlength="{{ constant('Tmonier\\SyliusTimelinePlugin\\Entity\\TimelineEntryInterface::NOTE_MAX_LENGTH') }}"
+        required
+        placeholder="{{ 'tmonier_timeline.ui.note_placeholder'|trans }}"
+        {{ sylius_test_html_attribute('note-content') }}
+    ></textarea>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+        <small class="text-secondary">{{ ux_icon('tabler:eye', {'class': 'icon'}) }} {{ 'tmonier_timeline.ui.staff_only'|trans }}</small>
+        <button type="submit" class="btn btn-primary" {{ sylius_test_html_attribute('add-note') }}>
+            {{ ux_icon('tabler:plus', {'class': 'icon'}) }}
+            {{ 'tmonier_timeline.ui.add_note'|trans }}
+        </button>
+    </div>
+</form>

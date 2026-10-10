@@ -1,0 +1,39 @@
+tmonier_timeline_admin_order_note_add:
+    path: /orders/{id}/timeline/notes
+    methods: [POST]
+    requirements:
+        id: '\d+'
+    defaults:
+        _controller: tmonier_timeline.controller.admin.note::addOrderNoteAction
+
+tmonier_timeline_admin_customer_note_add:
+    path: /customers/{id}/timeline/notes
+    methods: [POST]
+    requirements:
+        id: '\d+'
+    defaults:
+        _controller: tmonier_timeline.controller.admin.note::addCustomerNoteAction
+
+tmonier_timeline_admin_customer_timeline:
+    path: /customers/{id}/timeline
+    methods: [GET]
+    requirements:
+        id: '\d+'
+    defaults:
+        _controller: tmonier_timeline.controller.admin.note::customerTimelineAction
+
+tmonier_timeline_admin_note_toggle_pin:
+    path: /timeline/notes/{id}/pin
+    methods: [POST]
+    requirements:
+        id: '\d+'
+    defaults:
+        _controller: tmonier_timeline.controller.admin.note::togglePinAction
+
+tmonier_timeline_admin_note_delete:
+    path: /timeline/notes/{id}/delete
+    methods: [POST]
+    requirements:
+        id: '\d+'
+    defaults:
+        _controller: tmonier_timeline.controller.admin.note::deleteAction

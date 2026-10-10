@@ -1,0 +1,22 @@
+{% import '@SyliusAdmin/shared/helper/pagination.html.twig' as pagination %}
+
+{% set paginator = hookable_metadata.context.paginator %}
+
+<div class="page-body">
+    <div class="container-xl">
+        <div class="card">
+            <div class="card-body">
+                {% include '@TmonierSyliusTimelinePlugin/admin/shared/entries.html.twig' with {
+                    entries: paginator.currentPageResults,
+                    show_order: true,
+                } %}
+            </div>
+            {% if paginator.haveToPaginate %}
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="text-secondary">{{ pagination.results_count(paginator) }}</div>
+                    {{ pagination.simple(paginator) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

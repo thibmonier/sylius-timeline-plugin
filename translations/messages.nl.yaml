@@ -1,0 +1,57 @@
+tmonier_timeline:
+    ui:
+        timeline: 'Tijdlijn'
+        notes: 'Notities'
+        no_entries: 'Er is nog niets vastgelegd.'
+        pinned: 'Vastgezet'
+        pinned_notes: 'Vastgezette notities'
+        pin: 'Vastzetten'
+        unpin: 'Losmaken'
+        delete_confirmation: 'Deze notitie verwijderen?'
+        add_internal_note: 'Interne notitie'
+        note_placeholder: 'Schrijf een notitie voor het team…'
+        staff_only: 'Alleen zichtbaar voor medewerkers, nooit voor de klant.'
+        add_note: 'Notitie toevoegen'
+        show_full_timeline: 'Volledige tijdlijn tonen (%count% items)'
+        internal_notes_count: 'Interne notities: %count%'
+        sent_to: 'Verzonden naar'
+    author:
+        admin: 'Beheerder'
+        customer: 'Klant'
+        system: 'Systeem'
+    event:
+        order_placed: 'Bestelling geplaatst'
+        customer_note: 'Opmerking van de klant'
+        note: 'Interne notitie'
+        email: 'E-mail verzonden: %email%'
+        transition: '%workflow%: %transition%'
+        sylius_order:
+            cancel: 'Bestelling geannuleerd'
+            fulfill: 'Bestelling afgerond'
+        sylius_order_payment:
+            authorize: 'Betaling van de bestelling geautoriseerd'
+            partially_authorize: 'Betaling van de bestelling gedeeltelijk geautoriseerd'
+            pay: 'Bestelling betaald'
+            partially_pay: 'Bestelling gedeeltelijk betaald'
+            cancel: 'Betaling van de bestelling geannuleerd'
+            refund: 'Bestelling terugbetaald'
+            partially_refund: 'Bestelling gedeeltelijk terugbetaald'
+        sylius_order_shipping:
+            ship: 'Bestelling verzonden'
+            partially_ship: 'Bestelling gedeeltelijk verzonden'
+            cancel: 'Verzending van de bestelling geannuleerd'
+        sylius_payment:
+            authorize: 'Betaling geautoriseerd'
+            complete: 'Betaling voltooid'
+            fail: 'Betaling mislukt'
+            cancel: 'Betaling geannuleerd'
+            refund: 'Betaling terugbetaald'
+            void: 'Betaling vervallen'
+        sylius_shipment:
+            ship: 'Zending verzonden'
+            cancel: 'Zending geannuleerd'
+    email:
+        order_confirmation: 'orderbevestiging'
+        order_confirmation_resent: 'orderbevestiging (opnieuw verzonden)'
+        shipment_confirmation: 'verzendbevestiging'
+        shipment_confirmation_resent: 'verzendbevestiging (opnieuw verzonden)'

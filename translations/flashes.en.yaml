@@ -1,0 +1,7 @@
+tmonier_timeline:
+    note_added: 'The note has been added.'
+    note_pinned: 'The note has been pinned.'
+    note_unpinned: 'The note has been unpinned.'
+    note_deleted: 'The note has been deleted.'
+    note_empty: 'The note cannot be empty.'
+    note_too_long: 'The note cannot be longer than %limit% characters.'

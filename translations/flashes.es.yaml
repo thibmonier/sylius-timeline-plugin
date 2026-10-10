@@ -1,0 +1,7 @@
+tmonier_timeline:
+    note_added: 'La nota se ha añadido.'
+    note_pinned: 'La nota se ha fijado.'
+    note_unpinned: 'La nota ya no está fijada.'
+    note_deleted: 'La nota se ha eliminado.'
+    note_empty: 'La nota no puede estar vacía.'
+    note_too_long: 'La nota no puede superar los %limit% caracteres.'

@@ -1,0 +1,57 @@
+tmonier_timeline:
+    ui:
+        timeline: 'Cronologia'
+        notes: 'Note'
+        no_entries: 'Non è ancora stato registrato nulla.'
+        pinned: 'Fissata'
+        pinned_notes: 'Note fissate'
+        pin: 'Fissa'
+        unpin: 'Rimuovi'
+        delete_confirmation: 'Eliminare questa nota?'
+        add_internal_note: 'Nota interna'
+        note_placeholder: 'Scrivi una nota per il team…'
+        staff_only: 'Visibile solo al personale, mai al cliente.'
+        add_note: 'Aggiungi nota'
+        show_full_timeline: 'Mostra tutta la cronologia (%count% voci)'
+        internal_notes_count: 'Note interne: %count%'
+        sent_to: 'Inviato a'
+    author:
+        admin: 'Amministratore'
+        customer: 'Cliente'
+        system: 'Sistema'
+    event:
+        order_placed: 'Ordine effettuato'
+        customer_note: 'Nota del cliente'
+        note: 'Nota interna'
+        email: 'E-mail inviata: %email%'
+        transition: '%workflow%: %transition%'
+        sylius_order:
+            cancel: 'Ordine annullato'
+            fulfill: 'Ordine evaso'
+        sylius_order_payment:
+            authorize: 'Pagamento dell''ordine autorizzato'
+            partially_authorize: 'Pagamento dell''ordine parzialmente autorizzato'
+            pay: 'Ordine pagato'
+            partially_pay: 'Ordine parzialmente pagato'
+            cancel: 'Pagamento dell''ordine annullato'
+            refund: 'Ordine rimborsato'
+            partially_refund: 'Ordine parzialmente rimborsato'
+        sylius_order_shipping:
+            ship: 'Ordine spedito'
+            partially_ship: 'Ordine parzialmente spedito'
+            cancel: 'Spedizione dell''ordine annullata'
+        sylius_payment:
+            authorize: 'Pagamento autorizzato'
+            complete: 'Pagamento completato'
+            fail: 'Pagamento non riuscito'
+            cancel: 'Pagamento annullato'
+            refund: 'Pagamento rimborsato'
+            void: 'Pagamento invalidato'
+        sylius_shipment:
+            ship: 'Spedizione inviata'
+            cancel: 'Spedizione annullata'
+    email:
+        order_confirmation: 'conferma dell''ordine'
+        order_confirmation_resent: 'conferma dell''ordine (reinviata)'
+        shipment_confirmation: 'conferma di spedizione'
+        shipment_confirmation_resent: 'conferma di spedizione (reinviata)'

@@ -1,0 +1,3 @@
+{% include '@TmonierSyliusTimelinePlugin/admin/shared/pinned_notes.html.twig' with {
+    notes: tmonier_timeline_order_pinned_notes(hookable_metadata.context.resource),
+} only %}

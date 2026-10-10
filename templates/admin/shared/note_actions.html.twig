@@ -1,0 +1,21 @@
+{# Pin / unpin (any administrator) and delete (author only, or anyone once the author's account is gone). #}
+{% set token_id = tmonier_timeline_note_csrf_token_id(note) %}
+
+<div class="d-flex gap-2 mt-2" {{ sylius_test_html_attribute('note-actions') }}>
+    <form action="{{ path('tmonier_timeline_admin_note_toggle_pin', {'id': note.id}) }}" method="POST">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token(token_id) }}" />
+        <button type="submit" class="btn btn-sm btn-ghost-warning" {{ sylius_test_html_attribute(note.pinned ? 'unpin-note' : 'pin-note') }}>
+            {{ ux_icon('tabler:star-filled', {'class': 'icon'}) }}
+            {{ (note.pinned ? 'tmonier_timeline.ui.unpin' : 'tmonier_timeline.ui.pin')|trans }}
+        </button>
+    </form>
+    {% if note.adminUser is null or note.authoredBy(app.user) %}
+        <form action="{{ path('tmonier_timeline_admin_note_delete', {'id': note.id}) }}" method="POST" onsubmit="return confirm('{{ 'tmonier_timeline.ui.delete_confirmation'|trans|e('js') }}');">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token(token_id) }}" />
+            <button type="submit" class="btn btn-sm btn-ghost-danger" {{ sylius_test_html_attribute('delete-note') }}>
+                {{ ux_icon('tabler:trash', {'class': 'icon'}) }}
+                {{ 'sylius.ui.delete'|trans }}
+            </button>
+        </form>
+    {% endif %}
+</div>

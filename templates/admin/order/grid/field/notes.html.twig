@@ -1,0 +1,9 @@
+{% set count = tmonier_timeline_order_note_count(data) %}
+
+{% if count > 0 %}
+    <a href="{{ path('sylius_admin_order_show', {'id': data.id}) }}#tmonier-timeline"
+       class="badge bg-yellow-lt text-decoration-none"
+       title="{{ 'tmonier_timeline.ui.internal_notes_count'|trans({'%count%': count}) }}"
+       {{ sylius_test_html_attribute('order-notes-count') }}
+    >{{ ux_icon('tabler:pencil', {'class': 'icon'}) }} {{ count }}</a>
+{% endif %}

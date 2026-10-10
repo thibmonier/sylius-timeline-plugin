@@ -1,0 +1,4 @@
+{% include '@TmonierSyliusTimelinePlugin/admin/shared/entries.html.twig' with {
+    entries: tmonier_timeline_order_entries(hookable_metadata.context.resource),
+    show_order: false,
+} %}

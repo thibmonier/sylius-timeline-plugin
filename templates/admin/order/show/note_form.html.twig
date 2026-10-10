@@ -1,0 +1,3 @@
+{% include '@TmonierSyliusTimelinePlugin/admin/shared/note_form.html.twig' with {
+    action: path('tmonier_timeline_admin_order_note_add', {'id': hookable_metadata.context.resource.id}),
+} only %}

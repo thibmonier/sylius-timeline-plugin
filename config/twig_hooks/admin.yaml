@@ -1,0 +1,76 @@
+sylius_twig_hooks:
+    hooks:
+        # Order page: pinned notes on top of the main column, timeline at the bottom.
+        'sylius_admin.order.show.content.sections#left':
+            tmonier_timeline_pinned_notes:
+                template: '@TmonierSyliusTimelinePlugin/admin/order/show/pinned_notes.html.twig'
+                priority: 400
+            tmonier_timeline:
+                template: '@TmonierSyliusTimelinePlugin/admin/shared/timeline_card.html.twig'
+                priority: -100
+
+        'sylius_admin.order.show.content.sections.tmonier_timeline':
+            note_form:
+                template: '@TmonierSyliusTimelinePlugin/admin/order/show/note_form.html.twig'
+                priority: 100
+            entries:
+                template: '@TmonierSyliusTimelinePlugin/admin/order/show/entries.html.twig'
+                priority: 0
+
+        # Customer page: pinned notes above the statistics, timeline at the bottom.
+        'sylius_admin.customer.show.content.sections':
+            tmonier_timeline_pinned_notes:
+                template: '@TmonierSyliusTimelinePlugin/admin/customer/show/pinned_notes.html.twig'
+                priority: 200
+            tmonier_timeline:
+                template: '@TmonierSyliusTimelinePlugin/admin/shared/timeline_card.html.twig'
+                priority: -100
+
+        'sylius_admin.customer.show.content.sections.tmonier_timeline':
+            note_form:
+                template: '@TmonierSyliusTimelinePlugin/admin/customer/show/note_form.html.twig'
+                priority: 100
+            entries:
+                template: '@TmonierSyliusTimelinePlugin/admin/customer/show/entries.html.twig'
+                configuration:
+                    limit: 50
+                priority: 0
+
+        # Full customer timeline page (paginated).
+        'tmonier_timeline.admin.customer.timeline':
+            sidebar:
+                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                priority: 200
+            navbar:
+                template: '@SyliusAdmin/shared/crud/common/navbar.html.twig'
+                priority: 100
+            content:
+                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                priority: 0
+
+        'tmonier_timeline.admin.customer.timeline.content':
+            flashes:
+                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                priority: 200
+            header:
+                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                priority: 100
+            sections:
+                template: '@TmonierSyliusTimelinePlugin/admin/customer/timeline/sections.html.twig'
+                priority: 0
+
+        'tmonier_timeline.admin.customer.timeline.content.header':
+            breadcrumbs:
+                template: '@TmonierSyliusTimelinePlugin/admin/customer/timeline/breadcrumbs.html.twig'
+                priority: 100
+            title_block:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                priority: 0
+
+        'tmonier_timeline.admin.customer.timeline.content.header.title_block':
+            title:
+                template: '@TmonierSyliusTimelinePlugin/admin/customer/timeline/title.html.twig'
+                priority: 100
+            actions:
+                template: '@TmonierSyliusTimelinePlugin/admin/customer/timeline/actions.html.twig'
+                priority: 0

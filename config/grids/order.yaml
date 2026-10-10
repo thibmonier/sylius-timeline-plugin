@@ -1,0 +1,16 @@
+# Adds an "internal notes" indicator to the Sylius admin orders grid.
+# Disable it in your application with:
+#   sylius_grid: { grids: { sylius_admin_order: { fields: { tmonier_timeline_notes: { enabled: false } } } } }
+sylius_grid:
+    grids:
+        sylius_admin_order:
+            fields:
+                tmonier_timeline_notes:
+                    type: twig
+                    label: tmonier_timeline.ui.notes
+                    path: .
+                    options:
+                        template: '@TmonierSyliusTimelinePlugin/admin/order/grid/field/notes.html.twig'
+                        vars:
+                            th_class: "w-1 text-center"
+                            td_class: "text-center"

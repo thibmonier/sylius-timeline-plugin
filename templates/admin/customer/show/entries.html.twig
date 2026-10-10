@@ -1,0 +1,16 @@
+{% set customer = hookable_metadata.context.resource %}
+{% set limit = hookable_configuration.limit|default(50) %}
+{% set total = tmonier_timeline_customer_entry_count(customer) %}
+
+{% include '@TmonierSyliusTimelinePlugin/admin/shared/entries.html.twig' with {
+    entries: tmonier_timeline_customer_entries(customer, limit),
+    show_order: true,
+} %}
+
+{% if total > limit %}
+    <div class="mt-3 text-center">
+        <a href="{{ path('tmonier_timeline_admin_customer_timeline', {'id': customer.id}) }}" class="btn" {{ sylius_test_html_attribute('timeline-show-more') }}>
+            {{ 'tmonier_timeline.ui.show_full_timeline'|trans({'%count%': total}) }}
+        </a>
+    </div>
+{% endif %}

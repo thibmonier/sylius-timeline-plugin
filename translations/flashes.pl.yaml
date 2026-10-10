@@ -1,0 +1,7 @@
+tmonier_timeline:
+    note_added: 'Notatka została dodana.'
+    note_pinned: 'Notatka została przypięta.'
+    note_unpinned: 'Notatka została odpięta.'
+    note_deleted: 'Notatka została usunięta.'
+    note_empty: 'Notatka nie może być pusta.'
+    note_too_long: 'Notatka nie może być dłuższa niż %limit% znaków.'
