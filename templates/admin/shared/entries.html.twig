@@ -7,7 +7,7 @@
 {% if entries is empty %}
     <p class="text-secondary mb-0" {{ sylius_test_html_attribute('timeline-empty') }}>{{ 'tmonier_timeline.ui.no_entries'|trans }}</p>
 {% else %}
-    <ul class="timeline timeline-simple mb-0" {{ sylius_test_html_attribute('timeline') }}>
+    <ul class="timeline mb-0" {{ sylius_test_html_attribute('timeline') }}>
         {% for entry in entries %}
             <li class="timeline-event" {{ sylius_test_html_attribute('timeline-entry', entry.type) }}>
                 <div class="timeline-event-icon bg-{{ tmonier_timeline_color(entry) }}-lt">
