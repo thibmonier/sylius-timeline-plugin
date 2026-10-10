@@ -13,6 +13,7 @@ use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
 
 /**
@@ -53,10 +54,10 @@ final class ShopCheckoutTimelineTest extends WebTestCase
         ]);
         self::assertResponseRedirects();
         $this->client->followRedirect();
-        $this->client->submitForm('Next');
+        $this->submitStepChoosingTheFirstOptions(); // shipping method
         self::assertResponseRedirects();
         $this->client->followRedirect();
-        $this->client->submitForm('Next');
+        $this->submitStepChoosingTheFirstOptions(); // payment method
         self::assertResponseRedirects();
         $this->client->followRedirect();
         $this->client->submitForm('Place order');
@@ -72,6 +73,21 @@ final class ShopCheckoutTimelineTest extends WebTestCase
         self::assertCount(1, $emails, 'The order confirmation sent after the checkout flush is recorded.');
         self::assertSame('order_confirmation', $emails[0]->getContextValue('code'));
         self::assertSame(TimelineEntryInterface::AUTHOR_CUSTOMER, $emails[0]->getAuthorType());
+    }
+
+    /** The random fixtures do not always preselect a shipping or payment method. */
+    private function submitStepChoosingTheFirstOptions(): void
+    {
+        $form = $this->client->getCrawler()->selectButton('Next')->form();
+        foreach ($form->all() as $field) {
+            if ($field instanceof ChoiceFormField && 'radio' === $field->getType() && null === $field->getValue()) {
+                $option = $field->availableOptionValues()[0] ?? null;
+                self::assertIsString($option);
+                $field->select($option);
+            }
+        }
+
+        $this->client->submit($form);
     }
 
     private function createCart(ShopUserInterface $shopUser): OrderInterface
