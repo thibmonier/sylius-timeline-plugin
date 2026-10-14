@@ -43,12 +43,4 @@ interface TimelineEntryRepositoryInterface extends RepositoryInterface
     public function findPinnedForCustomer(CustomerInterface $customer): array;
 
     public function hasEntriesForOrder(OrderInterface $order): bool;
-
-    /**
-     * Entries of the customer that carry personal data and must be cleared during a GDPR
-     * erasure: customer-authored entries (order_placed, customer_note) and email entries.
-     *
-     * @return list<TimelineEntryInterface>
-     */
-    public function findPersonalDataEntriesForCustomer(CustomerInterface $customer): array;
 }

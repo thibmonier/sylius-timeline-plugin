@@ -14,7 +14,7 @@ use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntry;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
 use Tmonier\SyliusTimelinePlugin\Factory\TimelineEntryFactoryInterface;
 use Tmonier\SyliusTimelinePlugin\Gdpr\CustomerTimelineEraserInterface;
-use Tmonier\SyliusTimelinePlugin\Repository\TimelineEntryRepositoryInterface;
+use Tmonier\SyliusTimelinePlugin\Gdpr\PersonalDataEntryFinderInterface;
 
 /**
  * Proves the GDPR right-to-erasure fix:
@@ -132,7 +132,7 @@ final class EraseCustomerTimelineCommandTest extends KernelTestCase
 
         // Count how many existing entries of this customer already carry PII
         // (fixtures may have left order_placed / email entries for this customer).
-        $before = count($this->repository()->findPersonalDataEntriesForCustomer($customer));
+        $before = count($this->finder()->findForCustomer($customer));
 
         $this->addEmailEntry($order, $customer, ['a@example.com']);
         $this->addEmailEntry($order, $customer, ['b@example.com']);
@@ -327,12 +327,12 @@ final class EraseCustomerTimelineCommandTest extends KernelTestCase
         return $eraser;
     }
 
-    private function repository(): TimelineEntryRepositoryInterface
+    private function finder(): PersonalDataEntryFinderInterface
     {
-        /** @var TimelineEntryRepositoryInterface $repo */
-        $repo = self::getContainer()->get('tmonier_timeline.repository.timeline_entry');
+        /** @var PersonalDataEntryFinderInterface $finder */
+        $finder = self::getContainer()->get('tmonier_timeline.gdpr.personal_data_entry_finder');
 
-        return $repo;
+        return $finder;
     }
 
     private function createCommandTester(): CommandTester

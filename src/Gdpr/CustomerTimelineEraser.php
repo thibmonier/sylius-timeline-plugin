@@ -7,7 +7,6 @@ namespace Tmonier\SyliusTimelinePlugin\Gdpr;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
-use Tmonier\SyliusTimelinePlugin\Repository\TimelineEntryRepositoryInterface;
 
 /**
  * Erases personal data of a customer from their timeline entries.
@@ -22,13 +21,13 @@ final class CustomerTimelineEraser implements CustomerTimelineEraserInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly TimelineEntryRepositoryInterface $repository,
+        private readonly PersonalDataEntryFinderInterface $finder,
     ) {
     }
 
     public function eraseForCustomer(CustomerInterface $customer): int
     {
-        $entries = $this->repository->findPersonalDataEntriesForCustomer($customer);
+        $entries = $this->finder->findForCustomer($customer);
 
         $count = 0;
 

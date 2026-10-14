@@ -12,20 +12,20 @@ use Sylius\Component\Core\Model\CustomerInterface;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntry;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
 use Tmonier\SyliusTimelinePlugin\Gdpr\CustomerTimelineEraser;
-use Tmonier\SyliusTimelinePlugin\Repository\TimelineEntryRepositoryInterface;
+use Tmonier\SyliusTimelinePlugin\Gdpr\PersonalDataEntryFinderInterface;
 
 final class CustomerTimelineEraserTest extends TestCase
 {
     /** @var EntityManagerInterface&MockObject */
     private EntityManagerInterface $entityManager;
 
-    /** @var TimelineEntryRepositoryInterface&MockObject */
-    private TimelineEntryRepositoryInterface $repository;
+    /** @var PersonalDataEntryFinderInterface&MockObject */
+    private PersonalDataEntryFinderInterface $repository;
 
     protected function setUp(): void
     {
         $this->entityManager = $this->createMock(EntityManagerInterface::class);
-        $this->repository = $this->createMock(TimelineEntryRepositoryInterface::class);
+        $this->repository = $this->createMock(PersonalDataEntryFinderInterface::class);
     }
 
     public function testItErasesRecipientsFromEmailEntries(): void
@@ -34,7 +34,7 @@ final class CustomerTimelineEraserTest extends TestCase
         $emailEntry = $this->makeEmailEntry($customer, ['jane@example.com', 'shop@example.com']);
         $otherEntry = $this->makeOrderPlacedEntry($customer, 'Jane Doe');
 
-        $this->repository->method('findPersonalDataEntriesForCustomer')->willReturn([$emailEntry, $otherEntry]);
+        $this->repository->method('findForCustomer')->willReturn([$emailEntry, $otherEntry]);
         $this->entityManager->expects(self::once())->method('flush');
 
         $eraser = new CustomerTimelineEraser($this->entityManager, $this->repository);
@@ -49,7 +49,7 @@ final class CustomerTimelineEraserTest extends TestCase
         $customer = new Customer();
         $placedEntry = $this->makeOrderPlacedEntry($customer, 'Jane Doe');
 
-        $this->repository->method('findPersonalDataEntriesForCustomer')->willReturn([$placedEntry]);
+        $this->repository->method('findForCustomer')->willReturn([$placedEntry]);
         $this->entityManager->expects(self::once())->method('flush');
 
         $eraser = new CustomerTimelineEraser($this->entityManager, $this->repository);
@@ -63,7 +63,7 @@ final class CustomerTimelineEraserTest extends TestCase
         $customer = new Customer();
         $noteEntry = $this->makeCustomerNoteEntry($customer, 'Jane Doe', 'Leave it with the neighbour');
 
-        $this->repository->method('findPersonalDataEntriesForCustomer')->willReturn([$noteEntry]);
+        $this->repository->method('findForCustomer')->willReturn([$noteEntry]);
         $this->entityManager->expects(self::once())->method('flush');
 
         $eraser = new CustomerTimelineEraser($this->entityManager, $this->repository);
@@ -79,7 +79,7 @@ final class CustomerTimelineEraserTest extends TestCase
         // Email entry with no recipients yet (already erased or never set).
         $emailEntry = $this->makeEmailEntry($customer, []);
 
-        $this->repository->method('findPersonalDataEntriesForCustomer')->willReturn([$emailEntry]);
+        $this->repository->method('findForCustomer')->willReturn([$emailEntry]);
         $this->entityManager->expects(self::once())->method('flush');
 
         $eraser = new CustomerTimelineEraser($this->entityManager, $this->repository);
@@ -97,7 +97,7 @@ final class CustomerTimelineEraserTest extends TestCase
             'recipients' => ['jane@example.com'],
         ]);
 
-        $this->repository->method('findPersonalDataEntriesForCustomer')->willReturn([$emailEntry]);
+        $this->repository->method('findForCustomer')->willReturn([$emailEntry]);
         $this->entityManager->method('flush');
 
         $eraser = new CustomerTimelineEraser($this->entityManager, $this->repository);
@@ -116,7 +116,7 @@ final class CustomerTimelineEraserTest extends TestCase
             $this->makeCustomerNoteEntry($customer, 'Jane', 'deliver asap'),
         ];
 
-        $this->repository->method('findPersonalDataEntriesForCustomer')->willReturn($entries);
+        $this->repository->method('findForCustomer')->willReturn($entries);
         $this->entityManager->expects(self::once())->method('flush');
 
         $eraser = new CustomerTimelineEraser($this->entityManager, $this->repository);
