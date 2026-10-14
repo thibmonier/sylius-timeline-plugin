@@ -175,6 +175,75 @@ $this->writer->persist($entry); // flushed with your own changes
 - Notes cannot be edited: delete and write a new one.
 - Every action is a CSRF-protected POST.
 
+## GDPR — Personal data and customer erasure
+
+### Data stored
+
+The plugin stores the following personal data in `tmonier_timeline_entry`:
+
+| Field | Where | What |
+|---|---|---|
+| `context.recipients` | `TYPE_EMAIL` entries | E-mail addresses of the recipients of each order-related e-mail |
+| `author_name` | `TYPE_ORDER_PLACED`, `TYPE_CUSTOMER_NOTE` | Snapshot of the customer's full name at the time of the event |
+| `content` | `TYPE_CUSTOMER_NOTE` | Checkout note left by the customer (verbatim from `Order::$notes`) |
+
+Staff notes (`TYPE_NOTE`) are authored by administrators and are **not** considered personal
+data of the customer. Their `content` is not erased.
+
+When a customer is **deleted**, all their entries are removed by `ON DELETE CASCADE` on
+`customer_id`. When a customer is **anonymised** (entity kept, personal data replaced), the
+entries must be erased separately — see below.
+
+### Right to erasure
+
+Use `CustomerTimelineEraserInterface` to erase the customer's personal data from the timeline.
+The eraser clears in a single query + single flush, without touching business records (entry
+type, transition, date, order number, amounts, e-mail code, etc.):
+
+```php
+use Tmonier\SyliusTimelinePlugin\Gdpr\CustomerTimelineEraserInterface;
+
+final class AnonymiseCustomerHandler
+{
+    public function __construct(
+        private CustomerTimelineEraserInterface $timelineEraser,
+        // … your other services
+    ) {}
+
+    public function __invoke(AnonymiseCustomer $command): void
+    {
+        $customer = $this->findCustomer($command->customerId);
+
+        // 1. Your existing anonymisation logic (replace e-mail, name, address…).
+        $this->customerAnonymiser->anonymise($customer);
+
+        // 2. Erase personal data from the timeline.
+        $this->timelineEraser->eraseForCustomer($customer);
+    }
+}
+```
+
+### Sylius core — anonymisation hook
+
+Sylius 2.2 / 2.3 does **not** provide a built-in anonymisation event or service
+(`CustomerAnonymizer`, `sylius.customer.anonymise`, etc.). There is no automatic hook to
+attach the eraser to. You must call `CustomerTimelineEraserInterface::eraseForCustomer()`
+explicitly from your own anonymisation process (command, message handler, controller…).
+
+### Console command
+
+```bash
+# Preview (no write)
+bin/console tmonier:timeline:erase-customer 42 --dry-run
+bin/console tmonier:timeline:erase-customer jane@example.com --dry-run
+
+# Erase
+bin/console tmonier:timeline:erase-customer 42
+bin/console tmonier:timeline:erase-customer jane@example.com
+```
+
+The command accepts either a numeric customer ID or an e-mail address.
+
 ## Limitations
 
 - Changes made outside Symfony Workflow (direct SQL, Winzou-mapped graphs, setters without a
