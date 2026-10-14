@@ -8,6 +8,9 @@ use Sylius\Component\Mailer\SyliusMailerEvents;
 use Tmonier\SyliusTimelinePlugin\Backfill\TimelineBackfiller;
 use Tmonier\SyliusTimelinePlugin\Backfill\TimelineBackfillerInterface;
 use Tmonier\SyliusTimelinePlugin\Command\BackfillTimelineCommand;
+use Tmonier\SyliusTimelinePlugin\Command\EraseCustomerTimelineCommand;
+use Tmonier\SyliusTimelinePlugin\Gdpr\CustomerTimelineEraser;
+use Tmonier\SyliusTimelinePlugin\Gdpr\CustomerTimelineEraserInterface;
 use Tmonier\SyliusTimelinePlugin\Controller\Admin\TimelineNoteController;
 use Tmonier\SyliusTimelinePlugin\EventListener\EmailTimelineListener;
 use Tmonier\SyliusTimelinePlugin\EventListener\WorkflowTimelineListener;
@@ -132,6 +135,27 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             service('tmonier_timeline.backfiller'),
             service('tmonier_timeline.manager.timeline_entry'),
+        ])
+        ->tag('console.command')
+    ;
+
+    // GDPR
+    $services
+        ->set('tmonier_timeline.gdpr.customer_eraser', CustomerTimelineEraser::class)
+        ->args([
+            service('tmonier_timeline.manager.timeline_entry'),
+            service('tmonier_timeline.repository.timeline_entry'),
+        ])
+    ;
+    $services->alias(CustomerTimelineEraserInterface::class, 'tmonier_timeline.gdpr.customer_eraser');
+
+    $services
+        ->set('tmonier_timeline.command.erase_customer', EraseCustomerTimelineCommand::class)
+        ->args([
+            service('tmonier_timeline.gdpr.customer_eraser'),
+            service('tmonier_timeline.manager.timeline_entry'),
+            param('sylius.model.customer.class'),
+            param('tmonier_timeline.model.timeline_entry.class'),
         ])
         ->tag('console.command')
     ;

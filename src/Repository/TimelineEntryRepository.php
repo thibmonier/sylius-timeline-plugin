@@ -105,6 +105,22 @@ class TimelineEntryRepository extends EntityRepository implements TimelineEntryR
         );
     }
 
+    public function findPersonalDataEntriesForCustomer(CustomerInterface $customer): array
+    {
+        /** @var list<TimelineEntryInterface> $entries */
+        $entries = $this->createQueryBuilder('o')
+            ->andWhere('o.customer = :customer')
+            ->andWhere('o.authorType = :authorType OR o.type = :emailType')
+            ->setParameter('customer', $customer)
+            ->setParameter('authorType', TimelineEntryInterface::AUTHOR_CUSTOMER)
+            ->setParameter('emailType', TimelineEntryInterface::TYPE_EMAIL)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        return $entries;
+    }
+
     public function hasEntriesForOrder(OrderInterface $order): bool
     {
         if (null === $order->getId()) {
