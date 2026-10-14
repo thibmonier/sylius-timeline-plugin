@@ -11,12 +11,12 @@ use Sylius\Resource\Factory\FactoryInterface;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
 use Tmonier\SyliusTimelinePlugin\Model\Actor;
 
-final class TimelineEntryFactory implements TimelineEntryFactoryInterface
+final readonly class TimelineEntryFactory implements TimelineEntryFactoryInterface
 {
     /** @param FactoryInterface<TimelineEntryInterface> $decoratedFactory */
     public function __construct(
-        private readonly FactoryInterface $decoratedFactory,
-        private readonly ClockInterface $clock,
+        private FactoryInterface $decoratedFactory,
+        private ClockInterface $clock,
     ) {
     }
 
@@ -34,7 +34,7 @@ final class TimelineEntryFactory implements TimelineEntryFactoryInterface
         $entry->setOrder($order);
         $customer = $order->getCustomer();
         $entry->setCustomer($customer instanceof CustomerInterface ? $customer : null);
-        if (null !== $createdAt) {
+        if ($createdAt instanceof \DateTimeImmutable) {
             $entry->setCreatedAt($createdAt);
         }
 

@@ -77,7 +77,7 @@ final class EraseCustomerTimelineCommand extends Command
 
         $customer = $this->findCustomer($customerArg);
 
-        if (null === $customer) {
+        if (!$customer instanceof \Sylius\Component\Core\Model\CustomerInterface) {
             $io->error(sprintf('No customer found for "%s".', $customerArg));
 
             return Command::FAILURE;

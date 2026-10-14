@@ -11,7 +11,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
 
 /** Label, icon and colour of a timeline entry. */
-final class TimelineEntryPresenter
+final readonly class TimelineEntryPresenter
 {
     private const ICONS_BY_TYPE = [
         TimelineEntryInterface::TYPE_ORDER_PLACED => 'tabler:shopping-bag',
@@ -33,7 +33,7 @@ final class TimelineEntryPresenter
         'partially_refund' => 'tabler:arrow-back-up',
     ];
 
-    public function __construct(private readonly TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
     }
 

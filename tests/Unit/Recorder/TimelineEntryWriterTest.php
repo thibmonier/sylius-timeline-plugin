@@ -20,10 +20,10 @@ use Tmonier\SyliusTimelinePlugin\Recorder\TimelineEntryWriter;
 final class TimelineEntryWriterTest extends TestCase
 {
     /** @var EntityManagerInterface&MockObject */
-    private EntityManagerInterface $entityManager;
+    private \PHPUnit\Framework\MockObject\MockObject $entityManager;
 
     /** @var UnitOfWork&MockObject */
-    private UnitOfWork $unitOfWork;
+    private \PHPUnit\Framework\MockObject\MockObject $unitOfWork;
 
     /** @var list<object> */
     private array $managed = [];

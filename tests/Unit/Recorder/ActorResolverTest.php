@@ -54,7 +54,7 @@ final class ActorResolverTest extends TestCase
     private function resolver(?UserInterface $user): ActorResolver
     {
         $tokenStorage = new TokenStorage();
-        if (null !== $user) {
+        if ($user instanceof \Symfony\Component\Security\Core\User\UserInterface) {
             $tokenStorage->setToken(new UsernamePasswordToken($user, 'main', ['ROLE_USER']));
         }
 

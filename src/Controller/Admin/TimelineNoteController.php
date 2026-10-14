@@ -50,7 +50,7 @@ final class TimelineNoteController extends AbstractController
         return sprintf('tmonier_timeline_note_%d', (int) $entry->getId());
     }
 
-    public function addOrderNoteAction(Request $request, int $id): Response
+    public function addOrderNoteAction(Request $request, int $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $order = $this->orderRepository->find($id);
         if (!$order instanceof OrderInterface) {
@@ -70,7 +70,7 @@ final class TimelineNoteController extends AbstractController
         return $redirect;
     }
 
-    public function addCustomerNoteAction(Request $request, int $id): Response
+    public function addCustomerNoteAction(Request $request, int $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $customer = $this->customerRepository->find($id);
         if (!$customer instanceof CustomerInterface) {
@@ -91,7 +91,7 @@ final class TimelineNoteController extends AbstractController
     }
 
     /** Any administrator can pin or unpin a note. */
-    public function togglePinAction(Request $request, int $id): Response
+    public function togglePinAction(Request $request, int $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $note = $this->getNote($request, $id);
         $this->getAdminUser();
@@ -104,12 +104,12 @@ final class TimelineNoteController extends AbstractController
     }
 
     /** Only the author can delete a note, or any administrator once the author's account is gone. */
-    public function deleteAction(Request $request, int $id): Response
+    public function deleteAction(Request $request, int $id): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         $note = $this->getNote($request, $id);
         $adminUser = $this->getAdminUser();
 
-        if (null !== $note->getAdminUser() && !$note->isAuthoredBy($adminUser)) {
+        if ($note->getAdminUser() instanceof \Sylius\Component\Core\Model\AdminUserInterface && !$note->isAuthoredBy($adminUser)) {
             throw new AccessDeniedHttpException('Only the author can delete this note.');
         }
 
@@ -196,7 +196,7 @@ final class TimelineNoteController extends AbstractController
     private function redirectToTarget(TimelineEntryInterface $note): RedirectResponse
     {
         $order = $note->getOrder();
-        if (null !== $order) {
+        if ($order instanceof \Sylius\Component\Core\Model\OrderInterface) {
             return $this->redirectToRoute('sylius_admin_order_show', ['id' => $order->getId()]);
         }
 

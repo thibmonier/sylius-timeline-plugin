@@ -17,7 +17,7 @@ use Tmonier\SyliusTimelinePlugin\Factory\TimelineEntryFactoryInterface;
 use Tmonier\SyliusTimelinePlugin\Model\Actor;
 use Tmonier\SyliusTimelinePlugin\Model\EntryContext;
 
-final class TimelineRecorder implements TimelineRecorderInterface
+final readonly class TimelineRecorder implements TimelineRecorderInterface
 {
     public const TYPES_BY_WORKFLOW = [
         OrderTransitions::GRAPH => TimelineEntryInterface::TYPE_ORDER_STATE,
@@ -40,11 +40,11 @@ final class TimelineRecorder implements TimelineRecorderInterface
 
     /** @param list<string> $enabledWorkflows */
     public function __construct(
-        private readonly TimelineEntryFactoryInterface $entryFactory,
-        private readonly TimelineEntryWriterInterface $writer,
-        private readonly ActorResolverInterface $actorResolver,
-        private readonly array $enabledWorkflows,
-        private readonly bool $recordEmails = true,
+        private TimelineEntryFactoryInterface $entryFactory,
+        private TimelineEntryWriterInterface $writer,
+        private ActorResolverInterface $actorResolver,
+        private array $enabledWorkflows,
+        private bool $recordEmails = true,
     ) {
     }
 
@@ -55,7 +55,7 @@ final class TimelineRecorder implements TimelineRecorderInterface
         }
 
         $order = $this->resolveOrder($subject);
-        if (null === $order || OrderInterface::STATE_CART === $order->getState()) {
+        if (!$order instanceof \Sylius\Component\Core\Model\OrderInterface || OrderInterface::STATE_CART === $order->getState()) {
             return [];
         }
 
@@ -89,7 +89,7 @@ final class TimelineRecorder implements TimelineRecorderInterface
         }
 
         $order = $this->resolveOrder($data['order'] ?? $data['shipment'] ?? $data['payment'] ?? null);
-        if (null === $order || null === $order->getId()) {
+        if (!$order instanceof \Sylius\Component\Core\Model\OrderInterface || null === $order->getId()) {
             return null;
         }
 
@@ -108,7 +108,7 @@ final class TimelineRecorder implements TimelineRecorderInterface
         $customer = $order->getCustomer();
         $actor = $this->actorResolver->resolve(Actor::customer($customer?->getFullName()));
 
-        $placed = $this->entryFactory->createForOrder($order, TimelineEntryInterface::TYPE_ORDER_PLACED, $actor, $order->getCheckoutCompletedAt() ? \DateTimeImmutable::createFromInterface($order->getCheckoutCompletedAt()) : null);
+        $placed = $this->entryFactory->createForOrder($order, TimelineEntryInterface::TYPE_ORDER_PLACED, $actor, $order->getCheckoutCompletedAt() instanceof \DateTimeInterface ? \DateTimeImmutable::createFromInterface($order->getCheckoutCompletedAt()) : null);
         $placed->setWorkflow(OrderTransitions::GRAPH);
         $placed->setTransition(OrderTransitions::TRANSITION_CREATE);
         $placed->setContext(EntryContext::forOrder($order));

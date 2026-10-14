@@ -188,7 +188,7 @@ class TimelineEntry implements TimelineEntryInterface
 
     public function isAuthoredBy(AdminUserInterface $adminUser): bool
     {
-        if (null === $this->adminUser) {
+        if (!$this->adminUser instanceof \Sylius\Component\Core\Model\AdminUserInterface) {
             return false;
         }
 

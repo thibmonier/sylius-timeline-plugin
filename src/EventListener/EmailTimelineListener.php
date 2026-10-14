@@ -9,11 +9,11 @@ use Sylius\Component\Mailer\Event\EmailSendEvent;
 use Tmonier\SyliusTimelinePlugin\Recorder\TimelineRecorderInterface;
 
 /** Listens to `sylius.email_send.post_send` (`SyliusMailerEvents::EMAIL_POST_SEND`). */
-final class EmailTimelineListener
+final readonly class EmailTimelineListener
 {
     public function __construct(
-        private readonly TimelineRecorderInterface $recorder,
-        private readonly LoggerInterface $logger,
+        private TimelineRecorderInterface $recorder,
+        private LoggerInterface $logger,
     ) {
     }
 

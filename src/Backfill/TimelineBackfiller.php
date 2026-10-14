@@ -16,24 +16,24 @@ use Tmonier\SyliusTimelinePlugin\Factory\TimelineEntryFactoryInterface;
 use Tmonier\SyliusTimelinePlugin\Model\Actor;
 use Tmonier\SyliusTimelinePlugin\Model\EntryContext;
 
-final class TimelineBackfiller implements TimelineBackfillerInterface
+final readonly class TimelineBackfiller implements TimelineBackfillerInterface
 {
     /**
      * @param class-string $orderClass
      * @param class-string $entryClass
      */
     public function __construct(
-        private readonly TimelineEntryFactoryInterface $entryFactory,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly string $orderClass,
-        private readonly string $entryClass,
+        private TimelineEntryFactoryInterface $entryFactory,
+        private EntityManagerInterface $entityManager,
+        private string $orderClass,
+        private string $entryClass,
     ) {
     }
 
     public function createEntries(OrderInterface $order): array
     {
         $placedAt = $order->getCheckoutCompletedAt();
-        if (null === $placedAt) {
+        if (!$placedAt instanceof \DateTimeInterface) {
             return [];
         }
         $placedAt = \DateTimeImmutable::createFromInterface($placedAt);
@@ -133,7 +133,7 @@ final class TimelineBackfiller implements TimelineBackfillerInterface
 
     private function latest(\DateTimeImmutable $placedAt, ?\DateTimeInterface $date): \DateTimeImmutable
     {
-        if (null === $date) {
+        if (!$date instanceof \DateTimeInterface) {
             return $placedAt;
         }
 

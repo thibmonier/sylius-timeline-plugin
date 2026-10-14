@@ -12,12 +12,12 @@ use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
  * Kept out of TimelineEntryRepositoryInterface: adding a method to that public interface would
  * break the applications that implement it.
  */
-final class PersonalDataEntryFinder implements PersonalDataEntryFinderInterface
+final readonly class PersonalDataEntryFinder implements PersonalDataEntryFinderInterface
 {
     /** @param class-string<TimelineEntryInterface> $entryClass */
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly string $entryClass,
+        private EntityManagerInterface $entityManager,
+        private string $entryClass,
     ) {
     }
 

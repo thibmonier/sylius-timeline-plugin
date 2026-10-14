@@ -17,11 +17,11 @@ use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
  *  2. For each loaded entry, clear the relevant fields in-memory.
  *  3. A single flush persists all changes.
  */
-final class CustomerTimelineEraser implements CustomerTimelineEraserInterface
+final readonly class CustomerTimelineEraser implements CustomerTimelineEraserInterface
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly PersonalDataEntryFinderInterface $finder,
+        private EntityManagerInterface $entityManager,
+        private PersonalDataEntryFinderInterface $finder,
     ) {
     }
 
