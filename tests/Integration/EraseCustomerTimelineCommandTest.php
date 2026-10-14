@@ -14,6 +14,7 @@ use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntry;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
 use Tmonier\SyliusTimelinePlugin\Factory\TimelineEntryFactoryInterface;
 use Tmonier\SyliusTimelinePlugin\Gdpr\CustomerTimelineEraserInterface;
+use Tmonier\SyliusTimelinePlugin\Repository\TimelineEntryRepositoryInterface;
 
 /**
  * Proves the GDPR right-to-erasure fix:
@@ -129,13 +130,20 @@ final class EraseCustomerTimelineCommandTest extends KernelTestCase
     {
         [$customer, $order] = $this->loadCustomerAndOrder();
 
+        // Count how many existing entries of this customer already carry PII
+        // (fixtures may have left order_placed / email entries for this customer).
+        $before = count($this->repository()->findPersonalDataEntriesForCustomer($customer));
+
         $this->addEmailEntry($order, $customer, ['a@example.com']);
         $this->addEmailEntry($order, $customer, ['b@example.com']);
         $this->addOrderPlacedEntry($order, $customer);
 
         $count = $this->eraser()->eraseForCustomer($customer);
 
-        self::assertSame(3, $count);
+        // We added 3 entries with PII; the eraser must have processed at least those.
+        self::assertGreaterThanOrEqual(3, $count, 'Eraser must process at least the 3 freshly added entries.');
+        // And the total must match the pre-existing count + 3.
+        self::assertSame($before + 3, $count);
     }
 
     // ── Console command ───────────────────────────────────────────────────────
@@ -317,6 +325,14 @@ final class EraseCustomerTimelineCommandTest extends KernelTestCase
         $eraser = self::getContainer()->get('tmonier_timeline.gdpr.customer_eraser');
 
         return $eraser;
+    }
+
+    private function repository(): TimelineEntryRepositoryInterface
+    {
+        /** @var TimelineEntryRepositoryInterface $repo */
+        $repo = self::getContainer()->get('tmonier_timeline.repository.timeline_entry');
+
+        return $repo;
     }
 
     private function createCommandTester(): CommandTester
