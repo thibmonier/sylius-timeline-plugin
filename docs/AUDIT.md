@@ -46,12 +46,14 @@
 
 3. **Adresses email dans le contexte persisté** (`TimelineRecorder.php:97-100`, OWASP A02:2025). Les adresses email des destinataires sont stockées en clair dans `context.recipients` (champ JSON) et affichées dans l'admin. C'est intentionnel mais non documenté : préciser dans `SPEC.md` et `README.md` les implications RGPD (rétention, droit à l'oubli sur les entrées mail).
 
+4. **Test functional instable : `ShopCheckoutTimelineTest`** (`tests/Functional/ShopCheckoutTimelineTest.php:58`). *À faire plus tard, documenté le 2026-10-14.* L'assertion `assertResponseRedirects()` après l'étape de livraison échoue de façon aléatoire : le formulaire est réaffiché au lieu de rediriger. Observé sur `main` (runs du 2026-10-10 et du 2026-10-14) et sur les PRs #2 et #3, sur toutes les versions de Sylius et de base de données, plus souvent en Sylius 2.3 ; une relance des jobs suffit en général. Cause probable : le test dépend des fixtures aléatoires de Sylius (méthodes de livraison, zones, moyens de paiement), et `submitStepChoosingTheFirstOptions()` ne couvre que le cas où aucune option n'est cochée. Cause exacte à confirmer en capturant la réponse en échec (erreurs de formulaire). → Rendre le test déterministe : créer dans le test une méthode de livraison sans règle pour la zone de l'adresse, et un moyen de paiement hors ligne activés sur `FASHION_WEB`, puis les sélectionner explicitement au lieu de prendre la première option.
+
 ### 🟡 Mineur
 
 - `TimelineRecorder::recordEmail()` accepte `array $data` non typé (`TimelineRecorder.php:85`). Si `$data['order']` est présent mais n'est pas un objet compatible, `resolveOrder()` retourne `null` silencieusement. → Ajouter un `is_object()` guard ou affiner le typage.
 - `TimelineEntry::getId()` retourne `?int` mais `noteCsrfTokenId()` caste en `(int)` sans vérifier que `$entry->getId()` n'est pas `null` (`TimelineNoteController.php:50`). Si l'entrée n'est pas encore persistée, le token CSRF serait `tmonier_timeline_note_0` — pas un vrai risque (l'entrée doit exister pour l'action), mais mérite un assert.
 - `TimelineExtension::CUSTOMER_SHOW_LIMIT` (50) et `TimelineNoteController::CUSTOMER_TIMELINE_PER_PAGE` (50) sont deux constantes séparées avec la même valeur. → Unifier en une constante partagée dans `TimelineEntryRepositoryInterface`.
-- Appliquer les 13 suggestions Rector (`make rector-fix`) — concerne principalement les propriétés de mocks dans les tests, sans impact fonctionnel.
+- ~~Appliquer les suggestions Rector (`make rector-fix`)~~ : fait (PR #3).
 - Confirmer la compatibilité des API Sylius lors du passage à 2.3 : `EmailSendEvent`, `SyliusMailerEvents`, `PrependDoctrineMigrationsTrait`.
 
 ### ℹ️ Pour information (choix de conception assumés)
