@@ -17,10 +17,10 @@ use Tmonier\SyliusTimelinePlugin\Gdpr\PersonalDataEntryFinderInterface;
 final class CustomerTimelineEraserTest extends TestCase
 {
     /** @var EntityManagerInterface&MockObject */
-    private EntityManagerInterface $entityManager;
+    private \PHPUnit\Framework\MockObject\MockObject $entityManager;
 
     /** @var PersonalDataEntryFinderInterface&MockObject */
-    private PersonalDataEntryFinderInterface $repository;
+    private \PHPUnit\Framework\MockObject\MockObject $repository;
 
     protected function setUp(): void
     {

@@ -8,12 +8,12 @@ use Sylius\Component\Core\Model\AdminUserInterface;
 use Tmonier\SyliusTimelinePlugin\Entity\TimelineEntryInterface;
 
 /** Who caused a timeline entry. */
-final class Actor
+final readonly class Actor
 {
     private function __construct(
-        public readonly string $type,
-        public readonly ?string $name = null,
-        public readonly ?AdminUserInterface $adminUser = null,
+        public string $type,
+        public ?string $name = null,
+        public ?AdminUserInterface $adminUser = null,
     ) {
     }
 

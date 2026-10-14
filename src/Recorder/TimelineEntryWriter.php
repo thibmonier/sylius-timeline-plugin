@@ -26,7 +26,7 @@ final class TimelineEntryWriter implements TimelineEntryWriterInterface, ResetIn
     public function persist(TimelineEntryInterface $entry): bool
     {
         $order = $entry->getOrder();
-        if (null !== $order && !$this->entityManager->contains($order)) {
+        if ($order instanceof \Sylius\Component\Core\Model\OrderInterface && !$this->entityManager->contains($order)) {
             // Never cascade-persist an order: if the application does not persist it, the
             // flush would fail and take the application's own change down with it.
             $this->pending[] = $entry;
@@ -34,7 +34,7 @@ final class TimelineEntryWriter implements TimelineEntryWriterInterface, ResetIn
             return true;
         }
 
-        if (null === $order && null !== $entry->getCustomer() && !$this->entityManager->contains($entry->getCustomer())) {
+        if (!$order instanceof \Sylius\Component\Core\Model\OrderInterface && $entry->getCustomer() instanceof \Sylius\Component\Core\Model\CustomerInterface && !$this->entityManager->contains($entry->getCustomer())) {
             return false;
         }
 
@@ -46,7 +46,7 @@ final class TimelineEntryWriter implements TimelineEntryWriterInterface, ResetIn
     public function save(TimelineEntryInterface $entry): bool
     {
         $order = $entry->getOrder();
-        if (null !== $order && !$this->entityManager->contains($order)) {
+        if ($order instanceof \Sylius\Component\Core\Model\OrderInterface && !$this->entityManager->contains($order)) {
             return false;
         }
 
@@ -106,12 +106,12 @@ final class TimelineEntryWriter implements TimelineEntryWriterInterface, ResetIn
     private function doPersist(TimelineEntryInterface $entry): void
     {
         $customer = $entry->getCustomer();
-        if (null !== $customer && null !== $entry->getOrder() && !$this->entityManager->contains($customer)) {
+        if ($customer instanceof \Sylius\Component\Core\Model\CustomerInterface && $entry->getOrder() instanceof \Sylius\Component\Core\Model\OrderInterface && !$this->entityManager->contains($customer)) {
             $entry->setCustomer(null);
         }
 
         $adminUser = $entry->getAdminUser();
-        if (null !== $adminUser && !$this->entityManager->contains($adminUser)) {
+        if ($adminUser instanceof \Sylius\Component\Core\Model\AdminUserInterface && !$this->entityManager->contains($adminUser)) {
             // Detached user (custom user provider): keep the name snapshot only.
             $entry->setAdminUser(null);
         }

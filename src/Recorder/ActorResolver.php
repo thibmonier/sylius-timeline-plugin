@@ -9,9 +9,9 @@ use Sylius\Component\Core\Model\ShopUserInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Tmonier\SyliusTimelinePlugin\Model\Actor;
 
-final class ActorResolver implements ActorResolverInterface
+final readonly class ActorResolver implements ActorResolverInterface
 {
-    public function __construct(private readonly TokenStorageInterface $tokenStorage)
+    public function __construct(private TokenStorageInterface $tokenStorage)
     {
     }
 

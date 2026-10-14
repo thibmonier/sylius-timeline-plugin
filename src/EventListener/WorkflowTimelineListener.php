@@ -12,18 +12,18 @@ use Tmonier\SyliusTimelinePlugin\Recorder\TimelineRecorderInterface;
  * Listens to `workflow.completed` (every workflow) and lets the recorder filter on the
  * configured workflows. Recording must never break a checkout or a back-office action.
  */
-final class WorkflowTimelineListener
+final readonly class WorkflowTimelineListener
 {
     public function __construct(
-        private readonly TimelineRecorderInterface $recorder,
-        private readonly LoggerInterface $logger,
+        private TimelineRecorderInterface $recorder,
+        private LoggerInterface $logger,
     ) {
     }
 
     public function __invoke(CompletedEvent $event): void
     {
         $transition = $event->getTransition();
-        if (null === $transition) {
+        if (!$transition instanceof \Symfony\Component\Workflow\Transition) {
             return;
         }
 

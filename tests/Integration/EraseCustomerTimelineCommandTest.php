@@ -111,7 +111,7 @@ final class EraseCustomerTimelineCommandTest extends KernelTestCase
         [$targetCustomer, $targetOrder] = $this->loadCustomerAndOrder();
         [$otherCustomer, $otherOrder] = $this->loadAnotherCustomerAndOrder($targetCustomer);
 
-        $targetEntry = $this->addEmailEntry($targetOrder, $targetCustomer, ['target@example.com']);
+        $this->addEmailEntry($targetOrder, $targetCustomer, ['target@example.com']);
         $otherEntry = $this->addEmailEntry($otherOrder, $otherCustomer, ['other@example.com']);
 
         $this->eraser()->eraseForCustomer($targetCustomer);
