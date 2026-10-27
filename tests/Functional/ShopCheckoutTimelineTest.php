@@ -10,6 +10,7 @@ use Sylius\Component\Core\Factory\PaymentMethodFactoryInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
 use Sylius\Component\Core\Model\ShopUserInterface;
@@ -95,7 +96,7 @@ final class ShopCheckoutTimelineTest extends WebTestCase
         self::assertInstanceOf(ChannelInterface::class, $channel);
         $container = self::getContainer();
 
-        /** @var ZoneFactoryInterface $zoneFactory */
+        /** @var ZoneFactoryInterface<ZoneInterface> $zoneFactory */
         $zoneFactory = $container->get('sylius.factory.zone');
         $zone = $zoneFactory->createWithMembers(['US']);
         $zone->setCode('TIMELINE_TEST_US');
@@ -115,10 +116,11 @@ final class ShopCheckoutTimelineTest extends WebTestCase
         $shipping->setConfiguration([(string) $channel->getCode() => ['amount' => 500]]);
         $shipping->addChannel($channel);
 
-        /** @var PaymentMethodFactoryInterface $paymentFactory */
+        /** @var PaymentMethodFactoryInterface<PaymentMethodInterface> $paymentFactory */
         $paymentFactory = $container->get('sylius.factory.payment_method');
         $payment = $paymentFactory->createWithGateway('offline');
         $payment->setCode(self::PAYMENT_METHOD_CODE);
+        $payment->getGatewayConfig()?->setGatewayName('offline');
         $payment->setCurrentLocale('en_US');
         $payment->setFallbackLocale('en_US');
         $payment->setName('Timeline test payment');
